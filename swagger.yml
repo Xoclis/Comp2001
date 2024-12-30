@@ -1,0 +1,190 @@
+openapi: "3.0.0"
+info:
+  title: "Trail Service API"
+  description: "A RESTful API for managing trails, features, and users."
+  version: "1.0.0"
+
+servers:
+  - url: "http://localhost:8000"
+    description: "Local development server"
+
+paths:
+  /trails:
+    get:
+      summary: "Get all trails"
+      operationId: trails.get_all
+      responses:
+        "200":
+          description: "A list of trails"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Trail"
+    post:
+      summary: "Create a new trail"
+      operationId: trails.create
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TrailInput"
+      responses:
+        "201":
+          description: "Trail created"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Trail"
+
+  /trails/{trailId}:
+    get:
+      summary: "Get a trail by ID"
+      operationId: trails.get_one
+      parameters:
+        - name: trailId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: "Trail details"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Trail"
+        "404":
+          description: "Trail not found"
+    put:
+      summary: "Update a trail"
+      operationId: trails.update
+      parameters:
+        - name: trailId
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TrailInput"
+      responses:
+        "200":
+          description: "Trail updated"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Trail"
+    delete:
+      summary: "Delete a trail"
+      operationId: trails.delete
+      parameters:
+        - name: trailId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: "Trail deleted"
+        "404":
+          description: "Trail not found"
+
+  /features:
+    get:
+      summary: "Get all features"
+      operationId: features.get_all
+      responses:
+        "200":
+          description: "A list of features"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Feature"
+
+  /users:
+    get:
+      summary: "Get all users"
+      operationId: users.get_all
+      responses:
+        "200":
+          description: "A list of users"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/User"
+
+components:
+  schemas:
+    Trail:
+      type: object
+      properties:
+        TrailID:
+          type: integer
+        TrailName:
+          type: string
+        TrailSummary:
+          type: string
+        TrailDescription:
+          type: string
+        Difficulty:
+          type: string
+        Location:
+          type: string
+        Length:
+          type: number
+        ElevationGain:
+          type: integer
+        RouteType:
+          type: string
+        OwnerID:
+          type: integer
+
+    TrailInput:
+      type: object
+      properties:
+        TrailName:
+          type: string
+        TrailSummary:
+          type: string
+        TrailDescription:
+          type: string
+        Difficulty:
+          type: string
+        Location:
+          type: string
+        Length:
+          type: number
+        ElevationGain:
+          type: integer
+        RouteType:
+          type: string
+        OwnerID:
+          type: integer
+
+    Feature:
+      type: object
+      properties:
+        TrailFeatureID:
+          type: integer
+        TrailFeature:
+          type: string
+
+    User:
+      type: object
+      properties:
+        UserID:
+          type: integer
+        EmailAddress:
+          type: string
+        Role:
+          type: string

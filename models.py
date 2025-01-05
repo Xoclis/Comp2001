@@ -34,6 +34,26 @@ class Trail(db.Model):
     owner = relationship("User", back_populates="trails")  # Relationship with User
     features = relationship("Feature", secondary=trail_feature_association, back_populates="trails")
 
+    def to_dict(self):
+        return {
+            "TrailID": self.TrailID,
+            "Trail_name": self.Trail_name,
+            "Trail_Summary": self.Trail_Summary,
+            "Trail_Description": self.Trail_Description,
+            "Difficulty": self.Difficulty,
+            "Location": self.Location,
+            "Length": self.Length,
+            "Elevation_gain": self.Elevation_gain,
+            "Route_type": self.Route_type,
+            "OwnerID": self.OwnerID,
+            "Pt1_Lat": self.Pt1_Lat,
+            "Pt1_Long": self.Pt1_Long,
+            "Pt1_Desc": self.Pt1_Desc,
+            "Pt2_Lat": self.Pt2_Lat,
+            "Pt2_Long": self.Pt2_Long,
+            "Pt2_Desc": self.Pt2_Desc,
+        }
+
 
 class Feature(db.Model):
     __tablename__ = 'Feature'

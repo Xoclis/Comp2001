@@ -1,5 +1,8 @@
 from flask import request, jsonify
 from models import Trail, db
+from datetime import datetime
+import pytz
+
 
 def get_all():
     trails = Trail.query.all()

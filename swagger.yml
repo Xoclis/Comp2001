@@ -65,6 +65,27 @@ components:
         OwnerID:
           type: integer
 
+    User:
+      type: object
+      required:
+        - Email_address
+        - Role
+      properties:
+        UserID:
+          type: integer
+        Email_address:
+          type: string
+        Role:
+          type: string
+
+    UserInput:
+      type: object
+      properties:
+        Email_address:
+          type: string
+        Role:
+          type: string
+
   parameters:
     trailId:
       name: "trailId"
@@ -162,3 +183,107 @@ paths:
           description: "Trail successfully deleted"
         "404":
           description: "Trail not found"
+
+  /users:
+    get:
+      operationId: "users.get_all"
+      tags:
+        - "Users"
+      summary: "Retrieve all users"
+      responses:
+        "200":
+          description: "A list of users"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/User"
+    post:
+      operationId: "users.create"
+      tags:
+        - "Users"
+      summary: "Create a new user"
+      requestBody:
+        description: "Data for the new user"
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserInput"
+      responses:
+        "201":
+          description: "User successfully created"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+
+
+  /users/{userId}:
+    get:
+      operationId: "users.get_one"
+      tags:
+        - "Users"
+      summary: "Retrieve a single user by ID"
+      parameters:
+        - name: "userId"
+          in: path
+          required: true
+          description: "The ID of the user"
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: "User details"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        "404":
+          description: "User not found"
+    put:
+      operationId: "users.update"
+      tags:
+        - "Users"
+      summary: "Update an existing user"
+      parameters:
+        - name: "userId"
+          in: path
+          required: true
+          description: "The ID of the user"
+          schema:
+            type: integer
+      requestBody:
+        description: "Updated data for the user"
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserInput"
+      responses:
+        "200":
+          description: "User successfully updated"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        "404":
+          description: "User not found"
+    delete:
+      operationId: "users.delete"
+      tags:
+        - "Users"
+      summary: "Delete a user"
+      parameters:
+        - name: "userId"
+          in: path
+          required: true
+          description: "The ID of the user"
+          schema:
+            type: integer
+      responses:
+        "204":
+          description: "User successfully deleted"
+        "404":
+          description: "User not found"

@@ -12,10 +12,10 @@ basedir = pathlib.Path(__file__).parent.resolve()
 connex_app = connexion.App(__name__, specification_dir=basedir)
 
 # Flask app configuration
-app = connex_app.app
+app = connex_app.app  
 database = 'COMP2001_GSilcox'
 username = 'GSilcox'
-password = 'GxuQ785+'  # Your database password
+password = 'GxuQ785+'  
 encoded_password = urllib.parse.quote_plus(password)
 app.config["SQLALCHEMY_DATABASE_URI"] = (
     f"mssql+pyodbc://{username}:{encoded_password}@DIST-6-505.uopnet.plymouth.ac.uk/"
@@ -24,15 +24,9 @@ app.config["SQLALCHEMY_DATABASE_URI"] = (
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 # Initialize SQLAlchemy and Marshmallow
-db = SQLAlchemy()  # Only initialize, do not bind to app yet
+db = SQLAlchemy()  
 ma = Marshmallow()
 
-# Initialize the engine for direct connection testing (optional)
-connection_string = app.config["SQLALCHEMY_DATABASE_URI"]
-try:
-    engine = create_engine(connection_string)
-    connection = engine.connect()
-    print("Database connected successfully!")
-    connection.close()
-except Exception as e:
-    print(f"Database connection failed: {e}")
+
+# config.py
+API_BASE_URL = "http://localhost:8000/api"
